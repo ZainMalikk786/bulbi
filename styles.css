@@ -68,11 +68,6 @@ a:hover {
         box-shadow: 0 0 10px #fff, 0 0 15px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 100px #fff, 0 0 110px #fff, 0 0 150px #fff, 0 0 200px #fff;
     }
 }
-body {
-    margin: 0;
-    overflow: hidden;
-    background: #87CEEB; /* Sky Blue Background */
-}
 
 .butterfly {
     position: absolute;
