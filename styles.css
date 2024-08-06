@@ -1,54 +1,62 @@
 body {
-    background: #87CEEB; /* Sky Blue Background */
     margin: 0;
     overflow: hidden;
-    font-family: Arial, sans-serif;
+}
+
+.background {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    background: linear-gradient(135deg, #87CEEB, #FFFFFF);
+    animation: moveBackground 20s linear infinite;
+}
+
+@keyframes moveBackground {
+    0% { background-position: 0 0; }
+    100% { background-position: 100% 100%; }
 }
 
 .container {
-    text-align: center;
-    color: #333;
-}
-
-.butterfly-container {
     position: relative;
     width: 100vw;
     height: 100vh;
-    overflow: hidden;
 }
 
 .butterfly {
     position: absolute;
-    width: 60px;
-    height: 60px;
-    background: url('butterfly.png') no-repeat center center;
-    background-size: contain;
-    animation: fly 10s linear infinite, flap 0.5s ease-in-out infinite;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 100px;
+    height: 50px;
 }
 
-@keyframes fly {
-    0% { transform: translate(0, 0) rotate(0deg); }
-    25% { transform: translate(200px, -200px) rotate(90deg); }
-    50% { transform: translate(400px, 0) rotate(180deg); }
-    75% { transform: translate(600px, -200px) rotate(270deg); }
-    100% { transform: translate(800px, 0) rotate(360deg); }
+.wing {
+    position: absolute;
+    width: 100px;
+    height: 50px;
+    background: radial-gradient(circle, #FF69B4, #FF1493);
+    border-radius: 50% 50% 0 0;
+    animation: flap 1s infinite;
+}
+
+.left {
+    transform: rotate(-45deg);
+    left: 0;
+}
+
+.right {
+    transform: rotate(45deg);
+    right: 0;
 }
 
 @keyframes flap {
-    0%, 100% { transform: rotate(0deg); }
-    50% { transform: rotate(20deg); }
-}
-
-.particle {
-    position: absolute;
-    width: 8px;
-    height: 8px;
-    background: rgba(255, 255, 255, 0.8);
-    border-radius: 50%;
-    animation: particleMove 2s linear forwards;
-}
-
-@keyframes particleMove {
-    0% { transform: scale(1) translateY(0); opacity: 1; }
-    100% { transform: scale(0) translateY(-100px); opacity: 0; }
+    0%, 100% {
+        transform: scaleY(1);
+    }
+    50% {
+        transform: scaleY(0.8);
+    }
 }
