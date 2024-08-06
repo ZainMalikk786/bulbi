@@ -20,3 +20,18 @@ document.addEventListener('DOMContentLoaded', (event) => {
         youtubeLink.style.transform = 'scale(1)';
     });
 });
+const butterfly = document.getElementById('butterfly');
+
+function createParticle() {
+    const particle = document.createElement('div');
+    particle.classList.add('particle');
+    particle.style.left = butterfly.offsetLeft + 20 + 'px';
+    particle.style.top = butterfly.offsetTop + 20 + 'px';
+    document.body.appendChild(particle);
+
+    setTimeout(() => {
+        particle.remove();
+    }, 2000);
+}
+
+setInterval(createParticle, 200);
