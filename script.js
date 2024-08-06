@@ -1,104 +1,65 @@
-// Create scene, camera, and renderer
-const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-const renderer = new THREE.WebGLRenderer();
-renderer.setSize(window.innerWidth, window.innerHeight);
-document.body.appendChild(renderer.domElement);
+const canvas = document.getElementById('canvas');
+const ctx = canvas.getContext('2d');
 
-// Add OrbitControls
-const controls = new THREE.OrbitControls(camera, renderer.domElement);
-controls.enableDamping = true;
-controls.dampingFactor = 0.25;
-controls.enableZoom = true;
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
 
-// Function to load the zipped butterfly model
-function loadZippedModel(zipUrl, modelName) {
-    return fetch(zipUrl)
-        .then(response => response.arrayBuffer())
-        .then(data => JSZip.loadAsync(data))
-        .then(zip => zip.file(modelName).async('arraybuffer'))
-        .then(modelData => {
-            const loader = new THREE.GLTFLoader();
-            return new Promise((resolve, reject) => {
-                loader.parse(modelData, '', (gltf) => resolve(gltf.scene), (error) => reject(error));
-            });
-        });
-}
+const particleCount = 1000;
+const particles = [];
 
-// Load the butterfly model from the zip file
-let butterfly;
-loadZippedModel('butterfly.glb.zip', 'butterfly.glb')
-    .then(model => {
-        butterfly = model;
-        butterfly.scale.set(0.5, 0.5, 0.5);
-        butterfly.position.y = 0;
-        scene.add(butterfly);
-    })
-    .catch(error => console.error(error));
-
-// Advanced particle system
-const particleCount = 500;
-const particles = new THREE.BufferGeometry();
-const particlePositions = new Float32Array(particleCount * 3);
-
-for (let i = 0; i < particleCount * 3; i++) {
-    particlePositions[i] = Math.random() * 2000 - 1000;
-}
-
-particles.setAttribute('position', new THREE.BufferAttribute(particlePositions, 3));
-
-const particleMaterial = new THREE.PointsMaterial({
-    size: 5,
-    sizeAttenuation: true,
-    color: new THREE.Color('white'),
-    transparent: true,
-    opacity: 0.6,
-    blending: THREE.AdditiveBlending,
-    depthTest: false,
-});
-
-const particleSystem = new THREE.Points(particles, particleMaterial);
-scene.add(particleSystem);
-
-// Set camera position
-camera.position.z = 500;
-
-// Mouse interaction
-const mouse = new THREE.Vector2();
-const raycaster = new THREE.Raycaster();
-
-function onMouseMove(event) {
-    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
-    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
-}
-
-window.addEventListener('mousemove', onMouseMove);
-
-// Animation function
-function animate() {
-    requestAnimationFrame(animate);
-
-    // Rotate the particles
-    particleSystem.rotation.y += 0.001;
-
-    // Update butterfly position based on mouse
-    if (butterfly) {
-        raycaster.updateMatrixWorld();
-        const intersects = raycaster.intersectObject(butterfly);
-        if (intersects.length > 0) {
-            butterfly.position.x += (mouse.x - butterfly.position.x) * 0.05;
-            butterfly.position.y += ((-mouse.y) - butterfly.position.y) * 0.05;
-        }
+class Particle {
+    constructor(x, y) {
+        this.x = x;
+        this.y = y;
+        this.size = Math.random() * 5 + 1;
+        this.speedX = Math.random() * 3 - 1.5;
+        this.speedY = Math.random() * 3 - 1.5;
+        this.color = `rgba(${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, ${Math.floor(Math.random() * 255)}, 0.8)`;
     }
 
-    controls.update();
-    renderer.render(scene, camera);
+    update() {
+        this.x += this.speedX;
+        this.y += this.speedY;
+
+        if (this.size > 0.2) this.size -= 0.1;
+    }
+
+    draw() {
+        ctx.fillStyle = this.color;
+        ctx.strokeStyle = this.color;
+        ctx.lineWidth = 2;
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+        ctx.closePath();
+        ctx.fill();
+    }
 }
 
-window.addEventListener('resize', () => {
-    renderer.setSize(window.innerWidth, window.innerHeight);
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-});
+function createParticles(e) {
+    const xPos = e.x;
+    const yPos = e.y;
+    for (let i = 0; i < particleCount; i++) {
+        particles.push(new Particle(xPos, yPos));
+    }
+}
 
-animate();
+function animateParticles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    for (let i = 0; i < particles.length; i++) {
+        particles[i].update();
+        particles[i].draw();
+        if (particles[i].size <= 0.2) {
+            particles.splice(i, 1);
+            i--;
+        }
+    }
+    requestAnimationFrame(animateParticles);
+}
+
+canvas.addEventListener('mousemove', createParticles);
+animateParticles();
+
+window.addEventListener('resize', () => {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+});
