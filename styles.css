@@ -7,6 +7,7 @@ body {
     margin: 0;
     font-family: Arial, sans-serif;
     overflow: hidden;
+    background: #87CEEB; /* Sky Blue Background */
 }
 
 .container {
@@ -69,30 +70,60 @@ a:hover {
     }
 }
 
+.butterfly-container {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+}
+
 .butterfly {
     position: absolute;
     width: 50px;
     height: 50px;
     background: url('butterfly.png') no-repeat center center;
     background-size: contain;
-    animation: fly 5s linear infinite;
+    animation: fly 8s linear infinite;
 }
 
-@keyframes fly {
+#butterfly1 {
+    animation: fly1 10s linear infinite, flapWings 0.5s infinite;
+}
+
+#butterfly2 {
+    animation: fly2 10s linear infinite, flapWings 0.5s infinite;
+}
+
+@keyframes fly1 {
     0% {
         transform: translate(0, 0) rotate(0deg);
     }
-    25% {
-        transform: translate(100px, -200px) rotate(45deg);
-    }
     50% {
-        transform: translate(200px, 0) rotate(90deg);
-    }
-    75% {
-        transform: translate(300px, -200px) rotate(135deg);
+        transform: translate(300px, -200px) rotate(180deg);
     }
     100% {
-        transform: translate(400px, 0) rotate(180deg);
+        transform: translate(600px, 0) rotate(360deg);
+    }
+}
+
+@keyframes fly2 {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    50% {
+        transform: translate(300px, 200px) rotate(180deg);
+    }
+    100% {
+        transform: translate(600px, 0) rotate(360deg);
+    }
+}
+
+@keyframes flapWings {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    50% {
+        transform: rotate(20deg);
     }
 }
 
