@@ -11,18 +11,30 @@ controls.enableDamping = true;
 controls.dampingFactor = 0.25;
 controls.enableZoom = true;
 
-// Load the butterfly model
-const loader = new THREE.GLTFLoader();
-let butterfly;
+// Function to load the zipped butterfly model
+function loadZippedModel(zipUrl, modelName) {
+    return fetch(zipUrl)
+        .then(response => response.arrayBuffer())
+        .then(data => JSZip.loadAsync(data))
+        .then(zip => zip.file(modelName).async('arraybuffer'))
+        .then(modelData => {
+            const loader = new THREE.GLTFLoader();
+            return new Promise((resolve, reject) => {
+                loader.parse(modelData, '', (gltf) => resolve(gltf.scene), (error) => reject(error));
+            });
+        });
+}
 
-loader.load('butterfly.glb', function (gltf) {
-    butterfly = gltf.scene;
-    butterfly.scale.set(0.5, 0.5, 0.5);
-    butterfly.position.y = 0;
-    scene.add(butterfly);
-}, undefined, function (error) {
-    console.error('An error happened:', error);
-});
+// Load the butterfly model from the zip file
+let butterfly;
+loadZippedModel('butterfly.glb.zip', 'butterfly.glb')
+    .then(model => {
+        butterfly = model;
+        butterfly.scale.set(0.5, 0.5, 0.5);
+        butterfly.position.y = 0;
+        scene.add(butterfly);
+    })
+    .catch(error => console.error(error));
 
 // Advanced particle system
 const particleCount = 500;
