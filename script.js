@@ -21,7 +21,7 @@ loader.load('butterfly.glb', function (gltf) {
     butterfly.position.y = 0;
     scene.add(butterfly);
 }, undefined, function (error) {
-    console.error(error);
+    console.error('An error happened:', error);
 });
 
 // Advanced particle system
