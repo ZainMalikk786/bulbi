@@ -68,3 +68,55 @@ a:hover {
         box-shadow: 0 0 10px #fff, 0 0 15px #fff, 0 0 25px #fff, 0 0 50px #fff, 0 0 100px #fff, 0 0 110px #fff, 0 0 150px #fff, 0 0 200px #fff;
     }
 }
+body {
+    margin: 0;
+    overflow: hidden;
+    background: #87CEEB; /* Sky Blue Background */
+}
+
+.butterfly {
+    position: absolute;
+    width: 50px;
+    height: 50px;
+    background: url('butterfly.png') no-repeat center center;
+    background-size: contain;
+    animation: fly 5s linear infinite;
+}
+
+@keyframes fly {
+    0% {
+        transform: translate(0, 0) rotate(0deg);
+    }
+    25% {
+        transform: translate(100px, -200px) rotate(45deg);
+    }
+    50% {
+        transform: translate(200px, 0) rotate(90deg);
+    }
+    75% {
+        transform: translate(300px, -200px) rotate(135deg);
+    }
+    100% {
+        transform: translate(400px, 0) rotate(180deg);
+    }
+}
+
+.particle {
+    position: absolute;
+    width: 5px;
+    height: 5px;
+    background: rgba(255, 255, 255, 0.7);
+    border-radius: 50%;
+    animation: particleMove 2s linear infinite;
+}
+
+@keyframes particleMove {
+    from {
+        transform: translate(0, 0);
+        opacity: 1;
+    }
+    to {
+        transform: translate(0, 100px);
+        opacity: 0;
+    }
+}
