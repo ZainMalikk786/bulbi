@@ -21,13 +21,14 @@ document.addEventListener('DOMContentLoaded', (event) => {
     });
 });
 
-const butterfly = document.getElementById('butterfly');
+const butterfly1 = document.getElementById('butterfly1');
+const butterfly2 = document.getElementById('butterfly2');
 
-function createParticle() {
+function createParticle(x, y) {
     const particle = document.createElement('div');
     particle.classList.add('particle');
-    particle.style.left = butterfly.offsetLeft + 20 + 'px';
-    particle.style.top = butterfly.offsetTop + 20 + 'px';
+    particle.style.left = x + 'px';
+    particle.style.top = y + 'px';
     document.body.appendChild(particle);
 
     setTimeout(() => {
@@ -35,4 +36,12 @@ function createParticle() {
     }, 2000);
 }
 
-setInterval(createParticle, 200);
+function updateParticles() {
+    const rect1 = butterfly1.getBoundingClientRect();
+    const rect2 = butterfly2.getBoundingClientRect();
+
+    createParticle(rect1.left + rect1.width / 2, rect1.top + rect1.height / 2);
+    createParticle(rect2.left + rect2.width / 2, rect2.top + rect2.height / 2);
+}
+
+setInterval(updateParticles, 500);
