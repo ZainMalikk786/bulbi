@@ -20,6 +20,7 @@ document.addEventListener('DOMContentLoaded', (event) => {
         youtubeLink.style.transform = 'scale(1)';
     });
 });
+
 const butterfly = document.getElementById('butterfly');
 
 function createParticle() {
