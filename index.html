@@ -3,11 +3,132 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>High Detail Particles Animation</title>
-    <link rel="stylesheet" href="styles.css">
+    <title>Zain's GitHub Page</title>
+    <style>
+        /* Basic page styling */
+        body {
+            margin: 0;
+            padding: 0;
+            background-color: #0f0f0f;
+            overflow: hidden;
+            color: white;
+            font-family: 'Arial', sans-serif;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        /* Bubbles animation */
+        .bubble {
+            position: absolute;
+            border-radius: 50%;
+            background: rgba(0, 255, 255, 0.6);
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+            100% {
+                transform: translateY(-100vh) scale(1.5);
+                opacity: 0;
+            }
+        }
+
+        /* Discord invite button */
+        .discord-invite {
+            display: block;
+            width: 200px;
+            height: 50px;
+            margin: 50px auto;
+            background-color: #00ffff;
+            border-radius: 10px;
+            text-align: center;
+            line-height: 50px;
+            font-size: 18px;
+            font-weight: bold;
+            color: #0f0f0f;
+            text-decoration: none;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .discord-invite:hover {
+            background-color: #00e0e0;
+            animation: animateButton 2s infinite ease-in-out;
+        }
+
+        @keyframes animateButton {
+            0% {
+                transform: scale(1);
+            }
+            50% {
+                transform: scale(1.1);
+            }
+            100% {
+                transform: scale(1);
+            }
+        }
+
+        /* Bubbles generator */
+        .bubble-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .discord-widget {
+            margin-top: 30px;
+            display: flex;
+            justify-content: center;
+        }
+    </style>
 </head>
 <body>
-    <canvas id="canvas"></canvas>
-    <script src="script.js"></script>
+
+    <h1>Welcome to Zain's Page</h1>
+
+    <!-- Discord Invite -->
+    <a href="https://discord.com/invite/9F7jNMmep7" class="discord-invite">Join Discord</a>
+
+    <!-- Discord Widget -->
+    <div class="discord-widget">
+        <iframe src="https://discord.com/widget?id=1247194887770603602&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+    </div>
+
+    <!-- Bubbles Container -->
+    <div class="bubble-container">
+        <!-- Generating multiple bubbles -->
+        <div class="bubble" style="width: 20px; height: 20px; left: 10%;"></div>
+        <div class="bubble" style="width: 25px; height: 25px; left: 30%;"></div>
+        <div class="bubble" style="width: 15px; height: 15px; left: 50%;"></div>
+        <div class="bubble" style="width: 35px; height: 35px; left: 70%;"></div>
+        <div class="bubble" style="width: 10px; height: 10px; left: 90%;"></div>
+    </div>
+
+    <script>
+        // Generating random bubbles for continuous effect
+        const bubbleContainer = document.querySelector('.bubble-container');
+        setInterval(() => {
+            const bubble = document.createElement('div');
+            bubble.classList.add('bubble');
+            const size = Math.random() * 20 + 10 + 'px';
+            bubble.style.width = size;
+            bubble.style.height = size;
+            bubble.style.left = Math.random() * 100 + '%';
+            bubbleContainer.appendChild(bubble);
+
+            setTimeout(() => {
+                bubble.remove();
+            }, 15000);
+        }, 500);
+    </script>
 </body>
 </html>
