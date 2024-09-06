@@ -57,24 +57,34 @@
             overflow: hidden;
         }
 
-        .discord-invite:hover {
-            background-color: #00e0e0;
-            animation: animateButton 2s infinite ease-in-out;
+        /* Animated particles from the button */
+        .discord-invite::before {
+            content: '';
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background-color: #00ffff;
+            animation: particles 2s infinite linear;
+            border-radius: 50%;
+            opacity: 0.7;
         }
 
-        @keyframes animateButton {
+        @keyframes particles {
             0% {
-                transform: scale(1);
-            }
-            50% {
-                transform: scale(1.1);
+                transform: translate(0, 0) scale(0.5);
+                opacity: 1;
             }
             100% {
-                transform: scale(1);
+                transform: translate(200px, -200px) scale(0.1);
+                opacity: 0;
             }
         }
 
-        /* Bubbles generator */
+        .discord-invite:hover {
+            background-color: #00e0e0;
+        }
+
+        /* Bubbles around the widget */
         .bubble-container {
             position: absolute;
             top: 0;
@@ -84,10 +94,31 @@
             pointer-events: none;
         }
 
+        /* Widget styling */
         .discord-widget {
             margin-top: 30px;
             display: flex;
             justify-content: center;
+            position: relative;
+            width: 100%;
+        }
+
+        .discord-widget .bubble {
+            position: absolute;
+            background: rgba(0, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: widgetBubble 10s infinite ease-in-out;
+        }
+
+        @keyframes widgetBubble {
+            0% {
+                transform: translateY(0) scale(0.5);
+                opacity: 0.7;
+            }
+            100% {
+                transform: translateY(-200px) scale(1);
+                opacity: 0;
+            }
         }
     </style>
 </head>
@@ -98,12 +129,17 @@
     <!-- Discord Invite -->
     <a href="https://discord.com/invite/9F7jNMmep7" class="discord-invite">Join Discord</a>
 
-    <!-- Discord Widget -->
+    <!-- Discord Widget with water-like bubbles -->
     <div class="discord-widget">
         <iframe src="https://discord.com/widget?id=1247194887770603602&theme=dark" width="350" height="500" allowtransparency="true" frameborder="0" sandbox="allow-popups allow-popups-to-escape-sandbox allow-same-origin allow-scripts"></iframe>
+        <div class="bubble" style="width: 40px; height: 40px; left: 10%;"></div>
+        <div class="bubble" style="width: 25px; height: 25px; left: 30%;"></div>
+        <div class="bubble" style="width: 20px; height: 20px; left: 60%;"></div>
+        <div class="bubble" style="width: 50px; height: 50px; left: 80%;"></div>
+        <div class="bubble" style="width: 35px; height: 35px; left: 50%;"></div>
     </div>
 
-    <!-- Bubbles Container -->
+    <!-- Bubbles Container for the rest of the page -->
     <div class="bubble-container">
         <!-- Generating multiple bubbles -->
         <div class="bubble" style="width: 20px; height: 20px; left: 10%;"></div>
